@@ -74,6 +74,44 @@ namespace Project_Part_A_Test_Project
             Assert.AreEqual(age, driver.Age);
             Assert.AreEqual(nationality, driver.Nationality);
             Assert.AreEqual(salary, driver.Salary);
+
+
+        }
+    }
+    [TestClass]
+    public class RaceTests
+    {
+        [TestMethod]
+        public void PrintToDisplay_ShouldPrintRaceDetails()
+        {
+            // Arrange
+            Car car1 = new Car(1, "Car1", 2020, CarType.Sedan);
+            Car car2 = new Car(2, "Car2", 2021, CarType.Coupe);
+            Race race = new Race(car1, car2);
+
+            // Act
+            string result = TestHelper.CaptureConsoleOutput(() => race.PrintToDisplay());
+
+            // Assert
+            StringAssert.Contains("Race Details:", result);
+            StringAssert.Contains("Car1", result);
+            StringAssert.Contains("Car2", result);
+        }
+    }
+
+    public static class TestHelper
+    {
+        public static string CaptureConsoleOutput(Action action)
+        {
+            var originalOut = Console.Out;
+            using (var consoleOutput = new StringWriter())
+            {
+                Console.SetOut(consoleOutput);
+
+                action();
+
+                return consoleOutput.ToString();
+            }
         }
     }
 }
